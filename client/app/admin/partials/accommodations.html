@@ -1,0 +1,194 @@
+<!-- hbox layout -->
+<div class="hbox hbox-auto-xs bg-light " ng-init="app.settings.asideFixed = true;
+  app.settings.asideDock = false;
+  app.settings.container = false;
+  app.hideAside = false;app.hideFooter = true;">
+
+  <!-- column -->
+  <div class="col w-lg lt b-r">
+    <div class="vbox">
+      <div class="wrapper">
+        <a href class="pull-right btn btn-sm btn-info m-t-n-xs" ng-click="createAccommodation()">New</a>
+        <div class="h4">Accommodations</div>
+      </div>
+      <div class="wrapper b-t m-t-xxs">
+        <div class="input-group">
+          <span class="input-group-addon input-sm"><i class="fa fa-search"></i></span>
+          <input type="text" class="form-control input-sm" placeholder="search" ng-model="query">
+        </div>
+      </div>
+      <div class="row-row">
+        <div class="cell scrollable hover">
+          <div class="cell-inner">
+            <div class="padder">
+              <div class="list-group">
+                <a ng-repeat="accommodation in accommodations | filter:query " class="list-group-item  b-l-primary b-l-3x hover-anchor" ng-click="selectNote(note)">
+                  <span ng-click='deleteAccommodation(accommodation)' class="pull-right text-muted hover-action"><i class="fa fa-times"></i></span>
+
+                  <span class="block text-ellipsis">
+                    {{ accommodation.accommodatedBy.lastName ? accommodation.accommodatedBy.lastName : 'No LastName' }},
+                    {{ accommodation.accommodatedBy.firstName ? accommodation.accommodatedBy.firstName : 'No FirstName' }}</span>
+                  <small class="text-muted">{{ accommodation.createdAt }}</small>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /column -->
+
+
+
+  <!--<div class="col w-lg lter b-r">-->
+    <!--<div class="vbox">-->
+      <!--<div class="wrapper-xs b-b">-->
+        <!--<div class="input-group m-b-xxs">-->
+          <!--<span class="input-group-addon input-sm no-border no-bg"><i class="icon-magnifier text-md m-t-xxs"></i></span>-->
+          <!--<input type="text" class="form-control input-sm no-border no-bg text-md" placeholder="Search Accomodations" ng-model="query">-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="row-row">-->
+        <!--<div class="cell scrollable hover">-->
+          <!--<div class="cell-inner">-->
+            <!--<div class="m-t-n-xxs">-->
+              <!--<div class="list-group list-group-lg no-radius no-border no-bg m-b-none">-->
+                <!--<a ng-repeat="accommodation in accommodations  | filter:query | orderBy:'createdAt'" class="list-group-item m-l" ng-class="{'select m-l-none': accommodation.selected }" ng-click="selectAccommodation(accommodation)">-->
+                  <!--<span class="block text-ellipsis m-l-n text-md" ng-class="{'m-l-none': accommodation.selected }">-->
+                    <!--{{ accommodation.accommodatedBy.firstName }},{{  accommodation.accommodatedBy.lastName }} <strong> {{accommodation.arrival | date : format : mediumDate}} </strong>-->
+                  <!--</span>-->
+                <!--</a>-->
+              <!--</div>-->
+            <!--</div>-->
+            <!--<div class="text-center pos-abt w-full" style="top:50%;" ng-hide="(items | filter:query).length">No Accomodations</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="wrapper b-t text-center">-->
+        <!--<a href class="btn btn-sm btn-default btn-addon" ng-click="createAccommodation()"><i class="fa fa-plus fa-fw m-r-xs"></i> New Accomodation</a>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <!--&lt;!&ndash; column &ndash;&gt;-->
+  <!--<div class="col bg-white-only">-->
+    <!--<div class="vbox">-->
+      <!--<div class="wrapper-sm b-b">-->
+        <!--<div class="m-t-n-xxs m-b-n-xxs m-l-xs">-->
+          <!--<a class="btn btn-xs btn-default pull-right" ng-hide="!accommodation" ng-click="removeAccommodation(accommodation)"><i class="fa fa-times"></i></a>-->
+          <!--<a class="btn btn-xs btn-default" ng-hide="accommodation.editing" ng-click="editAccommodation(accommodation)">Edit</a>-->
+          <!--<a class="btn btn-xs btn-default" ng-show="accommodation.editing" ng-click="doneAccommodation(accommodation)">Done</a>-->
+        <!--</div>-->
+      <!--</div>-->
+      <!--<div class="row-row">-->
+        <!--<div class="cell">-->
+          <!--<div class="cell-inner">-->
+            <!--<div class="wrapper-lg">-->
+              <!--<div class="hbox h-auto m-b-lg">-->
+                <!--<div class="col v-middle h1 font-thin">-->
+                  <!--<div class="text-lg" ng-hide="accommodation.editing">-->
+                    <!--Accommodated by: {{accommodation.accommodatedBy.firstName}} {{accommodation.accommodatedBy.lastName}}-->
+                    <!--<span class="pull-right text-md">Number of Guests: {{accommodation.numberOfGuests}} Created at: {{accommodation.createdAt}} , Last Updated {{accommodation.updatedAt}} </span>-->
+                  <!--</div>-->
+                  <!--<div>-->
+
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--&lt;!&ndash; fields &ndash;&gt;-->
+              <!--<div class="form-horizontal">-->
+                <!--<div class="form-group m-b-sm" ng-hide="!accommodation.arrival && !accommodation.editing">-->
+                  <!--<label class="col-sm-3 control-label">Arrival</label>-->
+                    <!--<div class="col-sm-9">-->
+                      <!--<p class="form-control-static" ng-hide="accommodation.editing">{{accommodation.arrival | date : format : mediumDate}}</p>-->
+                      <!--<p class="input-group" ng-show="accommodation.editing" >-->
+                        <!--<input type="text" class="form-control"  datepicker-popup="{{format}}" ng-model="accommodation.arrival" is-open="arrivalOpen" max-date="accommodation.departure"  datepicker-options="dateOptions" ng-required="true" close-text="Close" />-->
+                        <!--<span class="input-group-btn">-->
+                        <!--<button type="button" class="btn btn-default" ng-click="openArrival($event)"><i class="fa fa-calendar"></i></button>-->
+                        <!--</span>-->
+                      <!--</p>-->
+                    <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="form-group m-b-sm" ng-hide="!accommodation.departure && !accommodation.editing">-->
+                  <!--<label class="col-sm-3 control-label">Departure</label>-->
+                  <!--<div class="col-sm-9">-->
+                    <!--<p class="form-control-static" ng-hide="accommodation.editing">{{accommodation.departure | date : format : mediumDate}}</p>-->
+                    <!--<p class="input-group" ng-show="accommodation.editing" >-->
+                      <!--<input type="text" class="form-control"  datepicker-popup="{{format}}" ng-model="accommodation.departure" is-open="arrivalOpen" max-date="accommodation.arrival"  datepicker-options="dateOptions" ng-required="true" close-text="Close" />-->
+                        <!--<span class="input-group-btn">-->
+                        <!--<button type="button" class="btn btn-default" ng-click="openDeparture($event)"><i class="fa fa-calendar"></i></button>-->
+                        <!--</span>-->
+                    <!--</p>-->
+                  <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="form-group m-b-sm" ng-hide="!accommodation.roomsOccupied && !accommodation.editing">-->
+                  <!--<label class="col-sm-3 control-label">Occupied Rooms</label>-->
+                  <!--<div class="col-sm-9">-->
+                    <!--&lt;!&ndash;<div ng-hide="accommodation.editing" ng-repeat="room in accommodation.roomsOccupied">&ndash;&gt;-->
+                      <!--&lt;!&ndash;<p class="form-control-static" > {{ room }}</p>&ndash;&gt;-->
+                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                    <!--<div ng-show="accommodation.editing">-->
+                      <!--&lt;!&ndash;<ui-select multiple ng-model="accommodation.roomsOccupied" theme="bootstrap" ng-disabled="!accommodation.editing" style="width: 500px;">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<ui-select-match placeholder="Select rooms">{{$item.type.name}} &lt;{{$item.number}}&gt;</ui-select-match>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<ui-select-choices repeat="room in rooms ">&ndash;&gt;-->
+                          <!--&lt;!&ndash;<div ng-bind-html="room.number | highlight: $select.search"></div>&ndash;&gt;-->
+                          <!--&lt;!&ndash;<small>&ndash;&gt;-->
+                            <!--&lt;!&ndash;type: {{room.type.name}}&ndash;&gt;-->
+                            <!--&lt;!&ndash;description: <span ng-bind-html="''+room.description | highlight: $select.search"></span>&ndash;&gt;-->
+                          <!--&lt;!&ndash;</small>&ndash;&gt;-->
+                        <!--&lt;!&ndash;</ui-select-choices>&ndash;&gt;-->
+                      <!--&lt;!&ndash;</ui-select>&ndash;&gt;-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+
+                <!--<div class="form-group m-b-sm" ng-hide="!accommodation.amenitiesAcquired && !accommodation.editing">-->
+                  <!--<div class="panel panel-default">-->
+                    <!--<div class="panel-heading">Amenities Acquired</div>-->
+                    <!--<table st-table="accommodation.amenitiesAcquired" class="table table-bordered table-striped">-->
+                      <!--<thead>-->
+                      <!--<tr>-->
+                        <!--<th>Date</th>-->
+                        <!--<th>Name</th>-->
+                        <!--<th>Price</th>-->
+                        <!--<th>Description</th>-->
+                        <!--<th width="50"></th>-->
+                      <!--</tr>-->
+                      <!--</thead>-->
+                      <!--<tbody>-->
+                      <!--<tr ng-repeat="amenity in accommodation.amenitiesAcquired">-->
+                        <!--<td>{{amenity.dateAcquired | date}}</td>-->
+                        <!--<td>{{amenity.amenity.name}}</td>-->
+                        <!--<td>{{amenity.amenity.price | currency}}</td>-->
+                        <!--<td>{{amenity.amenity.description}}</td>-->
+                        <!--&lt;!&ndash;<td>&ndash;&gt;-->
+                          <!--&lt;!&ndash;<button class="btn btn-xs" data-placement="top" data-content="{{row.email}}" bs-popover type="button">&ndash;&gt;-->
+                            <!--&lt;!&ndash;<i class="fa fa-eye"></i>&ndash;&gt;-->
+                          <!--&lt;!&ndash;</button>&ndash;&gt;-->
+                          <!--&lt;!&ndash;<a ng-href="mailto:{{row.email}}">email</a></td>&ndash;&gt;-->
+                        <!--<td>-->
+                          <!--<button type="button" ng-click="removeRow(row)" class="btn btn-xs btn-default">-->
+                            <!--<i class="fa fa-times">-->
+                            <!--</i>-->
+                          <!--</button>-->
+                        <!--</td>-->
+                      <!--</tr>-->
+                      <!--</tbody>-->
+                    <!--</table>-->
+                  <!--</div>-->
+                <!--</div>-->
+
+              <!--</div>-->
+              <!--&lt;!&ndash; / fields &ndash;&gt;-->
+            <!--</div>-->
+          <!--</div>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+  <!--&lt;!&ndash; /column &ndash;&gt;-->
+</div>
+<!-- /hbox layout -->

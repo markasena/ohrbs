@@ -1,0 +1,71 @@
+<!-- hbox layout -->
+<div class="hbox hbox-auto-xs bg-light " ng-init="app.settings.asideFixed = true;
+  app.settings.asideDock = false;
+  app.settings.container = false;
+  app.hideAside = false;app.hideFooter = true;">
+  <div class="bg-light lter b-b wrapper-md">
+    <h1 class="m-n font-thin h3"><span class="text-success"> <i class="m-l-md fa fa-2x fa-users"></i></span><strong class="m-l-sm">Guests</strong></h1>
+  </div>
+
+    <div class="wrapper-md">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="input-group input-group-lg">
+            <input type="text" ng-model="searchGuest" class="form-control" placeholder="Search guests . . . .">
+                  <span class="input-group-btn padder">
+                     <button type="button" class="input-group btn btn-lg btn-success" ng-click="createGuest('lg')">
+                       New Guest
+                       <i class="fa fa-plus"></i>
+                     </button>
+                  </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div class="wrapper-md">
+    <div class="col-sm-4 " ng-repeat="guest in guests |filter:searchGuest">
+    <div class="panel panel-default">
+    <div class="panel-heading">
+    <div class="clearfix">
+    <span ng-click="removeGuest('md',guest)" class="pull-right text-muted "><i class="fa fa-times"></i></span>
+    <a href class="pull-left thumb-md avatar b-3x m-r">
+    <img src="assets/images/a0.jpg" alt="...">
+    </a>
+    <div class="clear">
+    <a  ng-dblclick="modalUpdate('lg',guest)">
+    <div class="h3 m-t-xs m-b-xs">
+    {{guest.firstName}} , {{guest.lastName}}
+    <!--<i class="fa fa-circle text-success pull-right text-xs m-t-sm"></i>-->
+    </div>
+    <small class="text-muted">{{ guest.address.street}} , {{ guest.address.city}}</small>
+    </a>
+    </div>
+    </div>
+    </div>
+    <div class="list-group no-radius alt">
+    <a class="list-group-item" href>
+    <span class="badge bg-info">{{guest.accomodations.length}}</span>
+    <i class="fa fa-glass fa-fw text-muted"></i>
+    Accomodations
+    </a>
+
+    <a class="list-group-item" href>
+    <span class="badge bg-info">{{guest.reservations.length}}</span>
+    <i class="fa fa-calendar fa-fw text-muted"g></i>
+    Reservations
+    </a>
+    <a class="list-group-item" href>
+    <span class="badge bg-info">0</span>
+    <i class="fa fa-calculator fa-fw text-muted"></i>
+    Invoices
+    </a>
+    </div>
+    </div>
+    </div>
+  </div>
+
+
+
+</div>
+<!-- /hbox layout -->

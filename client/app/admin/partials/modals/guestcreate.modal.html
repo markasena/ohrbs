@@ -1,0 +1,59 @@
+<section data-backdrop="static" data-keyboard="false"
+  ng-controller="GuestCreateController as vm">
+<div class="modal-header">
+  <h3 class="modal-title"><strong>Create:</strong> </h3>
+</div>
+<div class="modal-body">
+
+  <form  name="form" class="form-validation">
+    <div class="form-group" ng-class="{ 'has-success': form.firstName.$valid && submitted,
+                                            'has-error': form.firstName.$invalid && submitted }">
+      <label>First Name <em class="text-muted">e.g Johnny</em></label>
+      <input type="text" name="firstName" class="form-control" ng-model="guest.firstName" maxlength="50" ng-pattern="/^[ñA-Za-z _\-]*[ñA-Za-z\-][ñA-Za-z ._\-]*$/" required >
+      <p class="help-block" ng-show="form.firstName.$error.required && submitted">
+        First Name is required.
+      </p>
+    </div>
+    <div class="form-group" ng-class="{ 'has-success': form.lastName.$valid && submitted,
+                                            'has-error': form.lastName.$invalid && submitted }">
+      <label>Last Name <em class="text-muted">e.g Depp</em></label>
+      <input type="text" name="lastName" class="form-control" ng-model="guest.lastName" maxlength="50" ng-pattern="/^[ñA-Za-z _\-]*[ñA-Za-z\-][ñA-Za-z ._\-]*$/" required >
+      <p class="help-block" ng-show="form.lastName.$error.required && submitted">
+        Last Name is required.
+      </p>
+    </div>
+
+    <div class="form-group" ng-class="{ 'has-success': form.mobile.$valid && submitted,
+                                            'has-error': form.mobile.$invalid && submitted }">
+      <label>Mobile Number</label>
+      <input type="text" name="mobile" ui-mask="(999) 999-9999" placeholder="(999) 999-9999"  class="form-control m-b" ng-model="guest.contactNumber" required>
+      <p class="help-block" ng-show="form.lastName.$error.required && submitted">
+        Last Name is required.
+      </p>
+    </div>
+    <div class="form-group pull-in clearfix">
+      <div class="col-sm-6" ng-class="{ 'has-success': form.city.$valid && submitted,
+                                            'has-error': form.city.$invalid && submitted }">
+        <label>City</label>
+        <input type="text" name="city" class="form-control" ng-model="guest.address.city" ng-pattern="/^[ñA-Za-z _\-]*[ñA-Za-z\-][ñA-Za-z _\-]*$/" required >
+        <p class="help-block" ng-show="form.lastName.$error.required && submitted">
+          City is required
+        </p>
+      </div>
+      <div class="col-sm-6" ng-class="{ 'has-success': form.street.$valid && submitted,
+                                            'has-error': form.street.$invalid && submitted }">
+        <label>Street</label>
+        <input type="text" name="street" class="form-control" ng-model="guest.address.street" ng-pattern="/^[ñA-Za-z0-9 _\-]*[ñA-Za-z0-9\-][ñA-Za-z0-9 _\-]*$/" required >
+        <p class="help-block" ng-show="form.street.$error.required && submitted">
+          Street is required
+        </p>
+      </div>
+    </div>
+  </form>
+  <div class="line line-dashed b-b line-lg"></div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+  <button class="btn btn-success"  ng-click="vm.createGuest(guest,ok())">Save and Close</button>
+</div>
+</section>

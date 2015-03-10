@@ -1,0 +1,79 @@
+<div class="hbox hbox-auto-xs bg-light " ng-init="app.settings.asideFixed = true;
+  app.settings.asideDock = false;
+  app.settings.container = false;
+  app.hideAside = false;app.hideFooter = true;"
+     ng-controller="RoomController as vm">
+
+  <div class="col w-lg lt b-r">
+    <div class="vbox">
+      <div class="wrapper">
+        <!--<a href class="pull-right btn btn-sm btn-info m-t-n-xs" ng-click="vm.createRoomtype('md')">New</a>-->
+        <div class="h4">Roomtype</div>
+      </div>
+      <div class="wrapper b-t m-t-xxs">
+        <div class="input-group">
+          <span class="input-group-addon input-sm"><i class="fa fa-search"></i></span>
+          <input type="text" class="form-control input-sm" placeholder="search roomtype name, rate" ng-model="searchRoomType">
+        </div>
+      </div>
+      <div class="row-row">
+        <div class="cell scrollable hover">
+          <div class="cell-inner">
+            <div class="padder">
+              <div class="list-group">
+                <a ng-repeat="roomtype in vm.roomtypes | filter:searchRoomType" class="list-group-item b-l-3x hover-anchor" ng-class="{'hover': roomtype.selected }" ng-dblclick="vm.updateRoomtype('md',roomtype)">
+                  <span ng-click="vm.removeRoomtype('md',roomtype)" class="pull-right text-muted hover-action"><i class="fa fa-times"></i></span>
+                  <span class="block text-ellipsis">{{ roomtype.name ? roomtype.name : 'Empty roomtype' }}</span>
+                  <small class="text-muted">{{ roomtype.rate }}</small>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrapper-md">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="input-group input-group-lg">
+          <input type="text" ng-model="searchGuest" class="form-control" placeholder="Search rooms . . . .">
+            <!--<span class="input-group-btn">-->
+             <!--<button ng-disabled="vm.roomtypes.$isEmpty()" type="button"-->
+                     <!--class="btn btn-lg btn-success"-->
+                     <!--ng-click="vm.createRoom('lg')">-->
+                       <!--New Room-->
+                    <!--<i class="fa fa-plus"></i>-->
+                     <!--</button>-->
+            <!--</span>-->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrapper-md">
+    <div class="row hover-anchor"  >
+        <div class="col-sm-4" ng-repeat="room in vm.rooms" >
+              <div class="panel b-a">
+                <a ng-dblclick="vm.updateRoom('lg',room)">
+                <div class="panel-heading no-border bg-primary">
+                  <span class="text-lt">Room {{room.number}}</span>
+                  <!--<span ng-click="vm.removeRoom('md',room)" class="pull-right text-muted text-lg"><i class="fa fa-times"></i></span>-->
+                </div>
+                <div class="item m-l-n-xxs m-r-n-xxs">
+                  <div class="bottom wrapper bg-gd-dk text-white">
+                    <div class="text-u-c h3 m-b-sm text-primary-lter">{{room.type.name}}</div>
+                    <div>{{room.type.description}}</div>
+                    <div>{{room.numberOfBeds}}</div>
+                    <div>{{room.description}}</div>
+                  </div>
+                  <img src="assets/images/double-room.jpg" class="img-full">
+                </div>
+              </div>
+            </a>
+        </div>
+    </div>
+  </div>
+
+</div>

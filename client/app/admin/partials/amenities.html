@@ -1,0 +1,33 @@
+<!-- hbox layout -->
+<div class="hbox hbox-auto-xs bg-light " ng-init="app.settings.asideFixed = true;
+  app.settings.asideDock = false;
+  app.settings.container = false;
+  app.hideAside = false;app.hideFooter = true;">
+
+
+  <!-- column -->
+  <div class="col w b-r">
+    <div class="vbox">
+      <div class="row-row">
+        <div class="cell scrollable hover">
+          <div class="cell-inner">
+            <div class="list-group no-radius no-border no-bg m-b-none">
+              <a ng-repeat="amenity in amenities" ng-dblclick="updateAmenity('md',amenity)" class="list-group-item m-l hover-anchor b-a no-select">
+                <span ng-click="removeAmenity('md',amenity)" class="pull-right text-muted hover-action"><i class="fa fa-times"></i></span>
+                <span class="block m-l-n" ng-class="{'m-n': amenity.selected }">{{ amenity.name ? amenity.name : 'Untitled' }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="wrapper b-t">
+        <span tooltip="Double click to Edit" class="pull-right text-muted inline wrapper-xs m-r-sm"><i class="fa fa-question"></i></span>
+        <a href class="btn btn-sm btn-default" ng-click="createAmenity()"><i class="fa fa-plus fa-fw m-r-xs"></i> New Amenity</a>
+      </div>
+    </div>
+  </div>
+  <!-- /column -->
+
+
+</div>
+<!-- /hbox layout -->

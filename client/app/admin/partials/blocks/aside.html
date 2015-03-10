@@ -1,0 +1,31 @@
+<div class="aside-wrap">
+  <!-- if you want to use a custom scroll when aside fixed, use the slimScroll
+    <div class="navi-wrap" ui-jq="slimScroll" ui-options="{height:'100%', size:'8px'}">
+  -->
+  <div class="navi-wrap">
+    <!-- user -->
+
+    <!-- / user -->
+
+    <!-- nav -->
+    <nav ui-nav class="navi clearfix" ng-include="'app/admin/partials/blocks/nav.html'"></nav>
+    <!-- nav -->
+
+    <!-- aside footer -->
+    <div class="wrapper m-t">
+      <div class="text-center-folded">
+        <span class="pull-right pull-none-folded">20%</span>
+        <span class="hidden-folded">Progress</span>
+      </div>
+      <progressbar value="20" class="progress-xxs m-t-sm dk" type="info"></progressbar>
+      <div class="text-center-folded">
+        <span class="pull-right pull-none-folded">0.5%</span>
+        <span class="hidden-folded">Release</span>
+      </div>
+      <progressbar value="0.5" class="progress-xxs m-t-sm dk" type="primary"></progressbar>
+    </div>
+    <!-- / aside footer -->
+  </div>
+
+
+</div>

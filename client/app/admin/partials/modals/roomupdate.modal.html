@@ -1,0 +1,47 @@
+<section ng-controller="RoomUpdateController as vm">
+  <div class="modal-header">
+    <h3 class="modal-title"><strong>Create Room type:</strong> </h3>
+  </div>
+  <div class="modal-body">
+    <form  name="form" class="form-validation">
+      <div class="form-group">
+        <div ng-show="vm.error" class="text-center text-danger">
+          <div class="alert alert-danger">
+            <strong ng-bind="vm.error"></strong>
+          </div>
+        </div>
+      </div>
+      <fieldset>
+        <!--<div class="form-group">-->
+        <!--<div class="btn btn-default" ng-file-select ng-file-change="upload($files)">Photo</div>-->
+        <!--</div>-->
+        <div class="form-group">
+          <label>Room No.</label>
+          <input type="number" class="form-control" ng-model="room.number" ng-pattern="/^[0-9]+$/"  required >
+        </div>
+        <div class="form-group">
+          <label>Description </label>
+          <textarea class="form-control" ng-model="room.description" rows="6" placeholder="Type the description here"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Number of Beds <em class="text-muted">maximum is 3</em></label>
+          <input type="number" class="form-control" ng-model="room.numberOfBeds" max="3" ng-pattern="/^[0-9]+$/"  required >
+        </div>
+        <div class="form-group">
+          <label>Roomtype</label>
+          <ui-select ng-model="room.type" theme="bootstrap" required>
+            <ui-select-match placeholder="Select roomtype">{{$select.selected.name}}</ui-select-match>
+            <ui-select-choices repeat="roomtype in roomtypes | filter: $select.search">
+              <div ng-bind-html="roomtype.name | highlight: $select.search"></div>
+            </ui-select-choices>
+          </ui-select>
+        </div>
+      </fieldset>
+    </form>
+    <div class="line line-dashed b-b line-lg"></div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-success" ng-disabled="form.$invalid" ng-click="vm.update(room); vm.error.$isEmpty(ok());  ">Update Room</button>
+  </div>
+</section>

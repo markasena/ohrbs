@@ -1,0 +1,65 @@
+<!-- hbox layout -->
+<div class="hbox hbox-auto-xs bg-light " ng-init="app.settings.asideFixed = true;
+  app.settings.asideDock = false;
+  app.settings.container = false;
+  app.hideAside = false;app.hideFooter = true;">
+
+  <div class="bg-light lter b-b wrapper-md">
+    <p class="font-thin h3">
+      Reservations
+      <button type="button" class="btn btn-warning pull-right" ng-model="status.pending" btn-checkbox btn-checkbox-true="PENDING" btn-checkbox-false="">
+        PENDING
+      </button>
+      <button type="button" class="btn btn-danger pull-right" ng-model="status.canceled" btn-checkbox btn-checkbox-true="CANCELED" btn-checkbox-false="">
+        CANCELED
+      </button>
+      <button type="button" class="btn btn-success pull-right" ng-model="status.confirmed" btn-checkbox btn-checkbox-true="CONFIRMED" btn-checkbox-false="">
+        CONFIRMED
+      </button>
+    </p>
+  </div>
+
+  <div class="wrapper-md">
+    <div class="col-md-4" ng-repeat="reservation in reservations | filter:status.pending | filter:status.canceled | filter:status.confirmed ">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="clearfix">
+            <div class="clear">
+              <div class="h3 m-t-xs m-b-xs">
+                {{ reservation.reservedBy.lastName }}, {{ reservation.reservedBy.firstName }}
+                <i class="fa fa-circle pull-right text-sm m-t-sm"
+                   ng-class="{'text-success': reservation.status == 'CONFIRMED',
+                   'text-danger': reservation.status == 'CANCELED', 'text-warning' : reservation.status == 'PENDING'}"></i>
+              </div>
+              <small class="text-muted">Created on: {{ reservation.createdAt | date : format : medium}}</small>
+            </div>
+          </div>
+        </div>
+        <div class="list-group no-border no-radius alt">
+          <p class="list-group-item bg-info">
+            Arrival
+            <span class="pull-right"> {{reservation.arrival | date : format : fullDate}}</span>
+          </p>
+          <p class="list-group-item bg-info">
+            Checkout Date
+            <span class="pull-right"> {{reservation.departure | date : format : fullDate}}</span>
+          </p>
+          <p class="list-group-item">
+            Room
+            <span class="pull-right">  {{reservation.room.type.name}} - {{reservation.room.number}}</span>
+          </p>
+          <p class="list-group-item">
+            Adults
+            <span class="pull-right"> {{ reservation.adults }}</span>
+          </p>
+          <p class="list-group-item">
+            Children
+            <span class="pull-right"> {{ reservation.children }}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<!-- /hbox layout -->

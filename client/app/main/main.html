@@ -1,0 +1,186 @@
+<div ng-include="'components/navbar/navbar.html'" ></div>
+
+<!--<header class="hero-unit" id="banner">-->
+<!--<div class="container">-->
+<!--<h1>'Allo, 'Allo!</h1>-->
+<!--<p class="lead">Kick-start your next web app with Angular Fullstack</p>-->
+<!--<img src="assets/images/yeoman.png" alt="I'm Yeoman">-->
+<!--</div>-->
+<!--</header>-->
+
+<br/>
+<br/>
+
+<div id="content">
+  <div class="row">
+    <div class="container bg-info  m-b-lg">
+      <div>
+        <div class="row">
+          <h1 class="font-bold text-white text-center padder-v animated fadeInDown">Beldent Star Hotel</h1>
+        </div>
+        <div class="row bg-black-opacity">
+          <div class="col-lg-12">
+            <form name="form" class="padder-v m-b-lg" novalidate>
+              <div class="col-lg-2">
+                <div class="form-group">
+                  <label>Check-in Date</label>
+                  <p class="input-group">
+                    <input type="text" class="form-control"  datepicker-popup="{{format}}" ng-model="bookDetails.arrival" is-open="bookDetails.arrivalOpen" max-date="bookDetails.departure"  datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="openArrival($event)"><i class="fa fa-calendar"></i></button>
+                  </span>
+                  </p>
+                </div>
+              </div>
+              <div class="col-lg-2">
+                <div class="form-group">
+                  <label>Check-out Date</label>
+                  <p class="input-group">
+                    <input type="text" class="form-control"  datepicker-popup="{{format}}" ng-model="bookDetails.departure" is-open="bookDetails.departureOpen" min-date="bookDetails.arrival"  datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+                  <span class="input-group-btn">
+                    <button type="button" class="btn btn-default" ng-click="openDeparture($event)"><i class="fa fa-calendar"></i></button>
+                  </span>
+                  </p>
+                </div>
+              </div>
+              <div class="col-lg-2 ">
+                <label>Roomtype</label>
+                <ui-select ng-model="bookDetails.roomtype" theme="bootstrap" >
+                  <ui-select-match placeholder="Select  roomtype">{{$select.selected.name}}</ui-select-match>
+                  <ui-select-choices repeat="roomtype in roomtypes | filter: $select.search">
+                    <div ng-bind-html="roomtype.name | highlight: $select.search"></div>
+                  </ui-select-choices>
+                </ui-select>
+              </div>
+              <div class="col-lg-2">
+                <label>Adults</label>
+                <input type="number" class="form-control" max="4" placeholder="Adults" ng-model="bookDetails.adults" ui-validate=" '$value >= 1' " required>
+              </div>
+              <div class="col-lg-2">
+                <label>Children</label>
+                <input type="number"  class="form-control" max="4" min="0" placeholder="Children" value="0" ng-model="bookDetails.children" >
+              </div>
+              <div class="col-lg-2 text-center m-t-sm" >
+                <button type="button" class="btn btn-lg btn-default btn-rounded" ng-disabled="form.$invalid" ui-sref="book">Book now!</button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div id="what" class="container m-b-xxl padder-v">
+      <div class="row no-gutter">
+        <div class="col-md-3 col-sm-6">
+          <div class="bg-light m-r-n-md no-m-xs no-m-sm">
+            <a href="../angular" class="wrapper-xl block">
+              <span class="h3 m-t-sm text-black">Rooms & Suites</span>
+              <span class="block m-b-md m-t">Enjoy sweeping views of the city.</span>
+              <i class="icon-arrow-right text-lg"></i>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="bg-black dker m-t-xl m-l-n-md m-r-n-md text-white no-m-xs no-m-sm">
+            <a href="../html" class="wrapper-xl block">
+              <span class="h3 m-t-sm text-white">Restaurant & Bars</span>
+              <span class="block m-b-md m-t">Be it Cantonese cuisine, international buffet, drinks at a bar or liveband in the lounge.</span>
+              <i class="icon-arrow-right text-lg"></i>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="bg-light dker m-t-n m-l-n-md m-r-n-md no-m-xs no-m-sm">
+            <a href="../angular/#music/home" class="wrapper-xl block">
+              <span class="h3 m-t-sm text-black">Facilities</span>
+              <span class="block m-b-md m-t">Gear up yourself for the challenging day ahead or rejuvenate your mind, body and soul after a long day, at our Deck which is abound with inviting choices.</span>
+              <i class="icon-arrow-right text-lg"></i>
+            </a>
+          </div>
+        </div>
+        <div class="col-md-3 col-sm-6">
+          <div class="bg-white m-t m-l-n-md no-m-xs no-m-sm">
+            <a href="#" class="wrapper-xl block">
+              <span class="h3 m-t-sm text-black">Gallery</span>
+              <span class="block m-b-md m-t">Troll link</span>
+              <i class="icon-arrow-right text-lg"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  </div>
+  <footer id="footer">
+    <div class="bg-info">
+      <div class="container">
+        <div class="row m-t-xl m-b-xl">
+          <div class="col-sm-6 text-white text-center">
+            <h4 class="m-b">Want to view the source code?</h4>
+          </div>
+          <div class="col-sm-6 text-center">
+            <a href="https://bitbucket.org/kenmark/ohrabs" class="btn btn-lg btn-default btn-rounded">Check Github</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bg-white">
+      <div class="container">
+        <div class="row m-t-xl m-b-xl">
+          <div class="col-sm-3">
+            <h4 class="text-u-c m-b font-thin"><span class="b-b b-dark font-bold">OHRBS</span>.</h4>
+            <ul class="list-unstyled">
+              <li><a href=""><i class="fa fa-angle-right m-r-sm"></i>Reserved</a></li>
+              <li><a href=""><i class="fa fa-angle-right m-r-sm"></i>Reserved</a></li>
+              <li><a href=""><i class="fa fa-angle-right m-r-sm"></i>Reserved</a></li>
+              <li><a href="#"><i class="fa fa-angle-right m-r-sm"></i>Reserved</a></li>
+            </ul>
+            <p class="m-b-xl">More coming...</p>
+          </div>
+          <div class="col-sm-3">
+            <h4 class="text-u-c m-b font-thin"><span class="b-b b-dark font-bold">Find</span> Us</h4>
+            <p class="text-sm">Ledesma Street, Tacurong City  <br>
+              Tacurong City Sultan Kudarat <br>
+              +63(64)2003698
+            </p>
+            <p>Developer: <a href="https://twitter.com/markasena">@markasena</a></p>
+            <p class="m-b-xl">Github: <a href="https://github.com/markasena">markasena</a></p>
+          </div>
+          <div class="col-sm-3">
+            <h4 class="text-u-c m-b-xl font-thin"><span class="b-b b-dark font-bold">Follow</span> Us</h4>
+            <div class="m-b-xl">
+              <a href="#" class="btn btn-icon btn-rounded btn-dark"><i class="fa fa-facebook"></i></a>
+              <a href="#" class="btn btn-icon btn-rounded btn-dark"><i class="fa fa-twitter"></i></a>
+              <a href="#" class="btn btn-icon btn-rounded btn-dark"><i class="fa fa-google-plus"></i></a>
+              <a href="#" class="btn btn-icon btn-rounded btn-dark"><i class="fa fa-linkedin"></i></a>
+              <a href="#" class="btn btn-icon btn-rounded btn-dark"><i class="fa fa-pinterest"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="bg-light dk">
+      <div class="container">
+        <div class="row padder-v m-t">
+          <div class="col-xs-8">
+            <ul class="list-inline">
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+              <li><a href="#">Link</a></li>
+            </ul>
+          </div>
+          <div class="col-xs-4 text-right">
+            OHRBS &copy; 2015
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  </div>

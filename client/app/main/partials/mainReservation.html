@@ -1,0 +1,161 @@
+<div ng-include="'components/navbar/navbar.html'" ></div>
+
+<div class="container m-t-xxl padder-lg">
+  <tabset justified="true" ng-init="steps={percent:20, step1:true, step2:false, step3:false}">
+    <tab heading="Available Accomodations" active="steps.step1" select="steps.percent=10">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <span class="panel-title text-2x"> Reservation</span>
+              <div class="row m-t">
+                <div class="list-group bg-primary m-b-none">
+                  <div class="col-sm-3" ng-show="reservation.arrival != null">
+                    <p class="list-group-item text-black">Arrival: <strong>{{reservation.arrival | date : format : mediumDate}}</strong></p>
+                  </div>
+                  <div class="col-sm-3" ng-show="reservation.departure != null">
+                    <p class="list-group-item text-black">Departure: <strong>{{reservation.departure | date : format : mediumDate}}</strong></p>
+                  </div>
+                  <div class="col-sm-3" ng-show="reservation.adults != null">
+                    <p class="list-group-item text-black">Adults: <strong>{{reservation.adults}}</strong></p>
+                  </div>
+                  <div class="col-sm-3" ng-show="reservation.children != null">
+                    <p class="list-group-item text-black">Children: <strong>{{reservation.children}}</strong></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel-body">
+                <div class="list-group no-radius  no-bg ">
+                  <a ng-repeat="room in availableRooms" class="list-group-item m-l hover-anchor b-a no-select" ng-class="{'focus m-l-none': room.selected}" ng-click="selectRoom(room)">
+                    {{room.number}}
+                  </a>
+                </div>
+
+              <div class="m-t m-b">
+                <button type="submit" ng-disabled="!room.selected" class="btn btn-default btn-rounded pull-out pull-right" ng-click="steps.step2=true">Next</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </tab>
+    <tab heading="Reservation Requirements" disabled="!room.selected" active="steps.step2" select="steps.percent=30">
+      <form name="form" class="form-validation" ng-submit="register(form)" novalidate>
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <span class="h4">Registration is required to continue</span>
+          </div>
+          <div class="panel-body">
+            <p class="text-muted">Please fill the information to continue</p>
+            <div class="form-group" ng-class="{ 'has-success': form.firstName.$valid && submitted,
+                                            'has-error': form.firstName.$invalid && submitted }">
+              <label>First Name <em class="text-muted">e.g Johnny</em></label>
+              <input type="text" name="firstName" class="form-control" ng-model="guest.firstName" maxlength="50" ng-pattern="/^[ñA-Za-z _\-]*[ñA-Za-z\-][ñA-Za-z _\-]*$/" required >
+              <p class="help-block" ng-show="form.firstName.$error.required && submitted">
+                First Name is required.
+              </p>
+            </div>
+            <div class="form-group" ng-class="{ 'has-success': form.lastName.$valid && submitted,
+                                            'has-error': form.lastName.$invalid && submitted }">
+              <label>Last Name <em class="text-muted">e.g Depp</em></label>
+              <input type="text" name="lastName" class="form-control" ng-model="guest.lastName" maxlength="50" ng-pattern="/^[ñA-Za-z _\-]*[ñA-Za-z\-][ñA-Za-z _\-]*$/" required >
+              <p class="help-block" ng-show="form.lastName.$error.required && submitted">
+                Last Name is required.
+              </p>
+            </div>
+
+            <div class="form-group" ng-class="{ 'has-success': form.mobile.$valid && submitted,
+                                            'has-error': form.mobile.$invalid && submitted }">
+              <label>Mobile Number</label>
+              <input type="text" name="mobile" ui-mask="(999) 999-9999" placeholder="(999) 999-9999"  class="form-control m-b" ng-model="guest.contactNumber" required>
+              <p class="help-block" ng-show="form.lastName.$error.required && submitted">
+                Last Name is required.
+              </p>
+            </div>
+            <div class="form-group pull-in clearfix">
+              <div class="col-sm-6" ng-class="{ 'has-success': form.city.$valid && submitted,
+                                            'has-error': form.city.$invalid && submitted }">
+                <label>City</label>
+                <input type="text" name="city" class="form-control" ng-model="guest.address.city" ng-pattern="/^[ñA-Za-z _\-]*[ñA-Za-z\-][ñA-Za-z _\-]*$/" required >
+                <p class="help-block" ng-show="form.lastName.$error.required && submitted">
+                  City is required
+                </p>
+              </div>
+              <div class="col-sm-6" ng-class="{ 'has-success': form.street.$valid && submitted,
+                                            'has-error': form.street.$invalid && submitted }">
+                <label>Street</label>
+                <input type="text" name="street" class="form-control" ng-model="guest.address.street" ng-pattern="/^[ñA-Za-z0-9 _\-]*[ñA-Za-z0-9\-][ñA-Za-z0-9 _\-]*$/" required >
+                <p class="help-block" ng-show="form.street.$error.required && submitted">
+                  Street is required
+                </p>
+              </div>
+            </div>
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+            <div class="form-group" ng-class="{ 'has-success': form.email.$valid && submitted,
+                                            'has-error': form.email.$invalid && submitted }">
+              <label>Email<em class="text-muted">e.g johnnydepp@hollywood.com</em></label>
+              <input type="email" name="email" class="form-control" ng-model="account.email" required mongoose-error>
+              <p class="help-block" ng-show="form.email.$error.email && submitted">
+                Doesn't look like a valid email.
+              </p>
+              <p class="help-block" ng-show="form.email.$error.required && submitted">
+                What's your email address?
+              </p>
+              <p class="help-block" ng-show="form.email.$error.mongoose">
+                {{ errors.email }}
+              </p>
+            </div>
+
+            <div class="form-group pull-in clearfix" ng-class="{ 'has-success': form.password.$valid && submitted,
+                                            'has-error': form.password.$invalid && submitted }">
+              <div class="col-sm-6">
+                <label>Enter password</label>
+                <input type="password" class="form-control" name="password" ng-model="account.password" required ng-minlength="3"
+                       required
+                       mongoose-error>
+              </div>
+              <div class="col-sm-6">
+                <label>Confirm password</label>
+                <input type="password" class="form-control" name="confirm_password" required ng-model="confirm_password" ui-validate=" '$value==account.password' " ui-validate-watch=" 'account.password'"
+                       ng-minlength="3"
+                       required>
+                <span ng-show='form.confirm_password.$error.validator'>Passwords do not match!</span>
+              </div>
+              <p class="help-block"
+                 ng-show="(form.password.$error.minlength || form.password.$error.required) && submitted">
+                Password must be at least 3 characters.
+              </p>
+              <p class="help-block" ng-show="form.password.$error.mongoose">
+                {{ errors.password }}
+              </p>
+            </div>
+
+            <div class="line line-dashed b-b line-lg pull-in"></div>
+            <div class="checkbox" ng-class="{ 'has-success': form.agree.$valid && submitted,
+                                            'has-error': form.agree.$invalid && submitted }">
+              <label class="i-checks">
+                <input type="checkbox" name="agree" required><i></i> I agree to the <a href class="text-info">Terms of Service</a>
+              </label>
+
+            </div>
+          </div>
+          <footer class="panel-footer text-right bg-light lter">
+            <button type="submit"  class="btn btn-success"  ng-click="steps.step3=true">Register</button>
+          </footer>
+        </div>
+      </form>
+    </tab>
+    <tab heading="Submit Reservation" disabled="step2.$invalid" active="steps.step3" select="steps.percent=60">
+      <p class="m-b">Congraduations!</p>
+      <progressbar value="steps.percent" class="progress-xs" type="success"></progressbar>
+      <p>Your'e reservation is requested, we will contact you.</p>
+      <div class="m-t m-b">
+        <button type="button" class="btn btn-default btn-rounded" ng-click="steps.step2=true">Prev</button>
+        <button type="button" class="btn btn-default btn-rounded" ng-click="steps.percent=100">Click me to Finish</button>
+      </div>
+    </tab>
+  </tabset>
+
+</div>

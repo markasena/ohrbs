@@ -1,0 +1,39 @@
+<section ng-controller="RoomtypeCreateController as vm">
+  <div class="modal-header">
+    <h3 class="modal-title"><strong>Create Room type:</strong> </h3>
+  </div>
+  <div class="modal-body">
+    <form  name="form" class="form-validation">
+      <div class="form-group">
+        <div ng-show="vm.error" class="text-center text-danger">
+          <div class="alert alert-danger">
+            <strong ng-bind="vm.error"></strong>
+          </div>
+        </div>
+      </div>
+      <fieldset>
+        <div class="form-group">
+          <label>Name <em class="text-muted">e.g DELUXE</em></label>
+          <input type="text" class="form-control" ng-model="roomtype.name" ng-pattern="/^[a-zA-Z\-\s]{2,28}$/" required >
+        </div>
+        <div class="form-group">
+          <label>Description </label>
+          <textarea class="form-control" rows="6" placeholder="Type the description here" required></textarea>
+        </div>
+        <div class="form-group">
+          <label>Rate </label>
+          <input type="number" class="form-control" ng-model="roomtype.rate" ng-pattern="/^[0-9]+$/"  required >
+        </div>
+        <div class="form-group">
+          <label>Number of Beds <em class="text-muted">maximum is 3</em></label>
+          <input type="number" class="form-control" ng-model="roomtype.numberOfBeds" max="3" ng-pattern="/^[0-9]+$/"  required >
+        </div>
+      </fieldset>
+    </form>
+    <div class="line line-dashed b-b line-lg"></div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    <button class="btn btn-success" ng-disabled="form.$invalid" ng-click="vm.create(roomtype); ok()">Save and Close</button>
+  </div>
+</section>
