@@ -1,20 +1,21 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
-    relationship = require("mongoose-relationship"),
-    autoIncrement = require('mongoose-autoinc'),
-    timestamps = require('mongoose-timestamp');
+  Schema = mongoose.Schema,
+  ObjectId = Schema.ObjectId,
+  validate = require('mongoose-validator'),
+  timestamp = require('mongoose-timestamp');
+
+require('mongo-relation');
 
 var RoomSchema = new Schema({
   number:{type: Number},
   description: String,
   numberOfBeds: Number,
   image: String,
-  type: {type: Number, ref: 'Roomtype', childPath: 'rooms'}
+  type: {type: ObjectId, ref: 'Roomtype'}
 });
 
-RoomSchema.plugin(autoIncrement.plugin, { model: 'Room', startAt: '1' , incrementBy: '1'});
-RoomSchema.plugin(timestamps);
-RoomSchema.plugin(relationship, { relationshipPathName : 'type'});
+RoomSchema.belongsTo('Roomtype', {through: 'type', dependent: 'delete'});
+RoomSchema.plugin(timestamp);
 module.exports = mongoose.model('Room', RoomSchema);

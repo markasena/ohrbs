@@ -2,10 +2,13 @@
 
 var _ = require('lodash');
 var Guest = require('./guest.model');
-var Reservation = require('../reservation/reservation.model');
+
+
 // Get list of guests
-exports.index = function(req, res) {
-  Guest.find({}).populate('accommodations')
+exports.index = function(req, res){
+  Guest.find({})
+    .populate('accommodations')
+    .populate('reservations')
     .exec(function (err , guests){
       if(err){
         return handleError(res,err);
@@ -13,20 +16,18 @@ exports.index = function(req, res) {
         res.status(200).json(guests);
       }
     });
-  //
-  //Guest.find(function (err, guests) {
-  //  if(err) { return handleError(res, err); }
-  //  return res.status(200).json(guests);
-  //});
 };
 
 // Get a single guest
 exports.show = function(req, res) {
-  Guest.findById(req.params.id, function (err, guest) {
-    if(err) { return handleError(res, err); }
-    if(!guest) { return res.send(404); }
-    return res.json(guest);
-  });
+  Guest.findById(req.params.id)
+    .populate('accommodations')
+    .populate('reservations')
+    .exec(function (err, guest) {
+      if(err) { return handleError(res, err); }
+      if(!guest) { return res.send(404); }
+      return res.json(guest);
+    });
 };
 
 // Creates a new guest in the DB.
@@ -65,15 +66,28 @@ exports.destroy = function(req, res) {
   });
 };
 
-exports.reservations = function(req, res){
-  Guest.findById(req.params.id,'-__v -account -accomodations')
-    .populate('reservations')
-    .exec(function(err, guest){
-      if(err) { return handleError(res, err); }
-      if(!guest) { return res.send(404); }
-      return res.json(guest);
+exports.addReservation = function(req, res , guest){
+  var guestId = req.guest._id;
+  Guest.findById(guestId, function (err, guest) {
+    if(err) { return handleError(res, err); }
+    if(!guest) { return res.send(404); }
+    guest.reservations.create(req.body.reservation,function(err, guest){
+      if (err) { return handleError(res, err); }
+      return res.status(200).json(guest);
     });
+  });
 };
+
+exports.createandregister = function(req, res ){
+  Guest.create(req.body.guest, function(err, guest) {
+    if(err) { return handleError(res, err); }
+    guest.reservations.create(req.body.reservation,function(err, guest){
+      if (err) { return handleError(res, err); }
+      return res.status(200).json(guest);
+    });
+  });
+};
+
 
 
 function handleError(res, err) {

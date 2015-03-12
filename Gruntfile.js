@@ -379,7 +379,7 @@ module.exports = function (grunt) {
       },
       heroku: {
         options: {
-          remote: 'heroku',
+          remote: 'git@heroku.com:ohrbs.git',
           branch: 'master'
         }
       },
@@ -422,9 +422,15 @@ module.exports = function (grunt) {
 
     mochaTest: {
       options: {
-        reporter: 'spec'
+        reporter: 'spec',
+        require: 'mocha.conf.js'
       },
-      src: ['server/**/*.spec.js']
+      unit: {
+        src: ['server/**/*.spec.js']
+      },
+      integration: {
+        src: ['server/**/*.integration.js']
+      }
     },
 
     protractor: {
@@ -552,7 +558,8 @@ module.exports = function (grunt) {
       return grunt.task.run([
         'env:all',
         'env:test',
-        'mochaTest'
+        'mochaTest:unit',
+        'mochaTest:integration'
       ]);
     }
 
@@ -563,7 +570,7 @@ module.exports = function (grunt) {
         'concurrent:test',
         'injector',
         'autoprefixer',
-        'karma'
+        //'karma'
       ]);
     }
 

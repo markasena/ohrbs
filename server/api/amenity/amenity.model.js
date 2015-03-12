@@ -1,8 +1,11 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-    Schema = mongoose.Schema,
-    autoIncrement = require('mongoose-autoinc');
+  Schema = mongoose.Schema,
+  ObjectId = Schema.ObjectId,
+  validate = require('mongoose-validator');
+
+require('mongo-relation');
 
 var AmenitySchema = new Schema({
   name: String,
@@ -10,6 +13,6 @@ var AmenitySchema = new Schema({
   description: String
 });
 
+AmenitySchema.habtm('Accommodation');
 
-AmenitySchema.plugin(autoIncrement.plugin, { model: 'Amenity', startAt: '1' , incrementBy: '1'});
 module.exports = mongoose.model('Amenity', AmenitySchema);
