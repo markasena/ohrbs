@@ -1,20 +1,18 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-  Schema = mongoose.Schema,
-  ObjectId = Schema.ObjectId,
-  validate = require('mongoose-validator'),
-  timestamp = require('mongoose-timestamp');
+    Schema = mongoose.Schema,
+    DateOnly = require('mongoose-dateonly')(mongoose),
+    autoIncrement = require('mongoose-autoinc'),
+    timestamps = require('mongoose-timestamp');
 
-require('mongo-relation')
 var InvoiceSchema = new Schema({
   status: String,
   description: String,
-  accommodation: {type: ObjectId, ref: 'Accommodation'},
+  accommodation: {type: Number, ref: 'Accommodation'},
   payment: Number
 });
 
-InvoiceSchema.plugin(timestamp, {createdAt: 'dateIssued'});
-InvoiceSchema.hasOne('Accommodation', {through: 'accommodation', dependent: 'delete'});
-
+InvoiceSchema.plugin(timestamps, {createdAt: 'dateIssued'});
+InvoiceSchema.plugin(autoIncrement.plugin, { model: 'Invoice', startAt: '1' , incrementBy: '1'});
 module.exports = mongoose.model('Invoice', InvoiceSchema);

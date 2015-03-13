@@ -78,16 +78,6 @@ exports.addReservation = function(req, res , guest){
   });
 };
 
-exports.createandregister = function(req, res ){
-  Guest.create(req.body.guest, function(err, guest) {
-    if(err) { return handleError(res, err); }
-    guest.reservations.create(req.body.reservation,function(err, guest){
-      if (err) { return handleError(res, err); }
-      return res.status(200).json(guest);
-    });
-  });
-};
-
 
 
 function handleError(res, err) {

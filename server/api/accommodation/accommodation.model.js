@@ -1,22 +1,26 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-  Schema = mongoose.Schema,
-  ObjectId = Schema.ObjectId,
-  validate = require('mongoose-validator'),
-  timestamp = require('mongoose-timestamp');
+    Schema = mongoose.Schema,
+    DateOnly = require('mongoose-dateonly')(mongoose),
+    relationship = require('mongoose-relationship'),
+    autoIncrement = require('mongoose-autoinc'),
+    timestamps = require('mongoose-timestamp');
 
-require('mongo-relation');
 var AccommodationSchema = new Schema({
-  accommodatedBy: {type: ObjectId, ref: 'Guest'},
-  numberOfGuests: Number,
-  arrival: {type: Date},
-  departure: {type: Date},
-  status: {type: String, enum: ['INACTIVE', 'ACTIVE']},
-  room: {type: ObjectId, ref: 'Room'},
-  amenitiesAcquired: [{ type: ObjectId, ref: 'Amenity'}]
+    accommodatedBy: {type: Number, ref: 'Guest', childPath: 'accommodations'},
+    numberOfGuests: Number,
+    arrival: {type: DateOnly},
+    departure: {type: DateOnly},
+    status: {type: String, enum: ['INACTIVE', 'ACTIVE']},
+    room: {type: Number, ref: 'Room'},
+    amenitiesAcquired: [{
+      dateAcquired: {type: Date , default: Date.now },
+      amenity: { type: Number, ref: 'Amenity'}
+    }]
 });
-AccommodationSchema.belongsTo('Guest', { through:'accommodatedBy' });
-AccommodationSchema.habtm('Amenity', { through: 'amenitiesAcquired'});
-AccommodationSchema.plugin(timestamp);
+
+AccommodationSchema.plugin(timestamps);
+AccommodationSchema.plugin(relationship, {relationshipPathName: 'accommodatedBy'});
+AccommodationSchema.plugin(autoIncrement.plugin, { model: 'Accommodation', startAt: '1' , incrementBy: '1'});
 module.exports = mongoose.model('Accommodation', AccommodationSchema);

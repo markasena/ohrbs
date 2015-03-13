@@ -3,7 +3,7 @@
 
 angular.module('app')
   .factory('Roomtype' ,function ($resource) {
-    return $resource('/api/roomtype/:id', {
+    return $resource('/api/roomtypes/:id', {
         id: '@_id'
       },{
         get:    {method:'GET'},

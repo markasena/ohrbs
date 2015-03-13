@@ -18,6 +18,16 @@
               First Name is required.
             </p>
           </div>
+
+          <div class="form-group" ng-class="{ 'has-success': form.middleName.$valid && submitted,
+                                            'has-error': form.middleName.$invalid && submitted }">
+            <label>Middle Name <em class="text-muted">e.g So</em></label>
+            <input type="text" name="middleName" class="form-control" ng-model="guest.middleName" maxlength="50" ng-pattern="/^[ñA-Za-z _\-]*[ñA-Za-z\-][ñA-Za-z _\-]*$/" required>
+            <p class="help-block" ng-show="form.middleName.$error.required && submitted">
+              Middle Name is required.
+            </p>
+          </div>
+
           <div class="form-group" ng-class="{ 'has-success': form.lastName.$valid && submitted,
                                             'has-error': form.lastName.$invalid && submitted }">
             <label>Last Name <em class="text-muted">e.g Depp</em></label>

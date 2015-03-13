@@ -1,52 +1,26 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-  Schema = mongoose.Schema,
-  ObjectId = Schema.ObjectId,
-  validate = require('mongoose-validator'),
-  timestamp = require('mongoose-timestamp');
-
-require('mongo-relation');
+    Schema = mongoose.Schema,
+    relationship = require("mongoose-relationship"),
+    autoIncrement = require('mongoose-autoinc'),
+    timestamps = require('mongoose-timestamp');
 
 var GuestSchema = new Schema({
-  account: { type: ObjectId, ref: 'Account' },
-  name: [
-    {
-      frst:{type: String},
-      mddle: {type: String},
-      lst: {type: String}
-    }
-  ],
+  account: {type: Number , ref:'Account'},
+  firstName: {type:String, required: true},
+  middleName: {type: String},
+  lastName: {type: String , required: true},
   contactNumber: {type: String},
   address: {
     city: String,
-    street: String
+    street: String,
+    province: String
   },
-  accommodations: [{type: ObjectId, ref: 'Accommodation'}],
-  reservations: [{type: ObjectId, ref: 'Reservation'}]
+  accommodations: [{type: Number, ref: 'Accommodation'}],
+  reservations: [{type: Number, ref: 'Reservation'}]
 });
 
-GuestSchema
-  .virtual('fullname')
-  .get(function() {
-    return this.name.lst + ' , ' + this.name.frst + ' ' + this.name.mddle;
-  });
-
-GuestSchema
-  .virtual('fulladdress')
-  .get(function() {
-    return this.address.street + ' , ' + this.address.city;
-  });
-
-GuestSchema
-  .virtual('checkedin')
-  .get(function() {
-    var bol = true;
-
-    return bol;
-  });
-
-GuestSchema.hasMany('Accommodation', {through: 'accommodations', dependent: 'delete'});
-GuestSchema.hasMany('Reservation', {through: 'reservations', dependent: 'delete'});
-GuestSchema.plugin(timestamp);
+GuestSchema.plugin(timestamps);
+GuestSchema.plugin(autoIncrement.plugin, { model: 'Guest', startAt: '1' , incrementBy: '1'});
 module.exports = mongoose.model('Guest', GuestSchema);

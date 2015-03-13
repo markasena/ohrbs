@@ -1,23 +1,22 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-  Schema = mongoose.Schema,
-  ObjectId = Schema.ObjectId,
-  validate = require('mongoose-validator'),
-  timestamp = require('mongoose-timestamp');
-
-require('mongo-relation');
+    Schema = mongoose.Schema,
+    DateOnly = require('mongoose-dateonly')(mongoose),
+    relationship = require("mongoose-relationship"),
+    autoIncrement = require('mongoose-autoinc'),
+    timestamps = require('mongoose-timestamp');
 
 var ReservationSchema = new Schema({
-  reservedBy: { type: ObjectId, ref: 'Guest'},
-  status: {type: String, enum: ['PENDING', 'CONFIRMED', 'CANCELED']},
-  rooms: [{type: ObjectId, ref: 'Room'}],
-  arrival: {type: Date},
-  departure: {type: Date},
-  adults: Number,
-  children: Number
+    reservedBy: { type: Number, ref: 'Guest', childPath: 'reservations'},
+    status: {type: String, enum: ['PENDING', 'CONFIRMED', 'CANCELED']},
+    room: {type: Number, ref: 'Room'},
+    arrival: {type: DateOnly},
+    departure: {type: DateOnly},
+    adults: Number,
+    children: Number
 });
-ReservationSchema.plugin(timestamp);
-ReservationSchema.belongsTo('Guest',{ through   : 'reservedBy' });
-
+ReservationSchema.plugin(timestamps);
+ReservationSchema.plugin(autoIncrement.plugin, { model: 'Reservation', startAt: '1' , incrementBy: '1'});
+ReservationSchema.plugin(relationship, {relationshipPathName: 'reservedBy'});
 module.exports = mongoose.model('Reservation', ReservationSchema);

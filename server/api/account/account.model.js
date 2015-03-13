@@ -3,10 +3,11 @@
 var mongoose = require('mongoose'),
   Schema = mongoose.Schema,
   crypto = require('crypto'),
-  relationship = require("mongoose-relationship");
+  relationship = require("mongoose-relationship"),
+  autoIncrement = require('mongoose-autoinc');
 
 var AccountSchema = new Schema({
-  owner: {type: Schema.ObjectId, ref: 'Guest', childPath:'account'},
+  owner: {type: Number, ref: 'Guest', childPath:'account'},
   email: { type: String, lowercase: true },
   role: {
     type: String,
@@ -137,5 +138,7 @@ AccountSchema.methods = {
     return crypto.pbkdf2Sync(password, salt, 10000, 64).toString('base64');
   }
 };
+
 AccountSchema.plugin(relationship, {relationshipPathName: 'owner'});
+AccountSchema.plugin(autoIncrement.plugin, { model: 'Account', startAt: '1' , incrementBy: '1'});
 module.exports = mongoose.model('Account', AccountSchema);

@@ -2,7 +2,7 @@
 
 var _ = require('lodash');
 var Room = require('./room.model');
-
+var Accommodation = require('../accommodation/accommodation.model');
 
 
 // Get list of rooms
@@ -58,6 +58,16 @@ exports.destroy = function(req, res) {
   });
 };
 
+exports.allAvailable = function(req, res) {
+  Room.find({})
+    .populate('type')
+    .exec(function (err, rooms) {
+      if(err) { return handleError(res, err); }
+      return res.status(200).json(rooms);
+    });
+};
+
 function handleError(res, err) {
+  console.log(err);
   return res.send(500, err);
-}
+};

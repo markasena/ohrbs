@@ -1,19 +1,17 @@
 'use strict';
 
 var mongoose = require('mongoose'),
-  Schema = mongoose.Schema,
-  ObjectId = Schema.ObjectId,
-  timestamp = require('mongoose-timestamp');
-
-require('mongo-relation');
+    Schema = mongoose.Schema,
+    autoIncrement = require('mongoose-autoinc'),
+    timestamps = require('mongoose-timestamp');
 
 var RoomtypeSchema = new Schema({
   name: String,
   description: String,
   numberOfBeds: Number,
-  rooms: [{type: ObjectId, ref: 'Room'}]
+  rooms: [{type: Number, ref: 'Room'}]
 });
 
-RoomtypeSchema.hasMany('Room', { through: 'rooms', dependent: 'nullify' });
-RoomtypeSchema.plugin(timestamp);
+RoomtypeSchema.plugin(timestamps);
+RoomtypeSchema.plugin(autoIncrement.plugin, { model: 'Roomtype', startAt: '1' , incrementBy: '1'});
 module.exports = mongoose.model('Roomtype', RoomtypeSchema);

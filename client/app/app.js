@@ -11,7 +11,27 @@ angular.module('app', [
   'ui.bootstrap',
   'ui.utils',
   'ui.select',
-])
+  'restangular'
+  ]).config(function(RestangularProvider) {
+    RestangularProvider.setBaseUrl('/api/');
+    RestangularProvider.setExtraFields(['name']);
+    RestangularProvider.setResponseExtractor(function(response, operation) {
+      return response.data;
+    });
+
+    RestangularProvider.setDefaultHttpFields({cache: true});
+    RestangularProvider.setMethodOverriders(["put", "patch"]);
+
+    // In this case we are mapping the id of each element to the _id field.
+    // We also change the Restangular route.
+    // The default value for parentResource remains the same.
+    RestangularProvider.setRestangularFields({
+      id: "_id"
+    });
+
+    // Use Request interceptor
+    RestangularProvider.setRequestInterceptor('authInterceptor');
+  })
   .config(function ($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider
       .otherwise('/');

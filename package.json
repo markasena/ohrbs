@@ -15,6 +15,7 @@
     "express": "~4.11.2",
     "express-jwt": "^1.0.0",
     "express-mailer": "0.2.4",
+    "express-restify-mongoose": "^0.7.4",
     "express-session": "~1.0.2",
     "jsonwebtoken": "^3.2.2",
     "lodash": "~2.4.1",
@@ -30,10 +31,10 @@
     "multiparty": "^4.1.1",
     "passport": "~0.2.1",
     "passport-local": "~1.0.0",
-    "serve-favicon": "~2.0.1",
+    "pg": "4.3.0",
     "sequelize": "^2.0.0-rc2",
-    "sqlite3": "~3.0.2",
-    "pg": "4.3.0"
+    "serve-favicon": "~2.0.1",
+    "sqlite3": "~3.0.2"
   },
   "devDependencies": {
     "grunt": "~0.4.4",

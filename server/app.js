@@ -10,10 +10,11 @@ process.env.NODE_ENV = process.env.NODE_ENV || 'development';
 var express = require('express');
 var mongoose = require('mongoose');
 var config = require('./config/environment');
+var autoIncrement = require('mongoose-autoinc');
 
 // Connect to database
-mongoose.connect(config.mongo.uri, config.mongo.options);
-
+var connect = mongoose.connect(config.mongo.uri, config.mongo.options);
+autoIncrement.initialize(connect , mongoose);
 // Populate DB with sample data
 if(config.seedDB) { require('./config/seed'); }
 
